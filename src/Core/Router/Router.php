@@ -15,24 +15,15 @@ class Router implements RouterInterface
     /** @var array */
     private $handler;
 
-    /** @var RequestInterface */
-    private $request;
-
-    /** @var array */
-    private $config;
-
-    public function __construct(array $config)
-    {
-        $this->config = $config;
-    }
-
     /**
+     * @param string $method
+     * @param string $uri
      * @return bool
      */
-    private function match(): bool
+    private function match(string $method, string $uri): bool
     {
-        foreach ($this->routes[$this->request->getMethod()] as $path => $handler) {
-            if (preg_match($path, $this->request->getRequestURI(), $matches)) {
+        foreach ($this->routes[$method] as $path => $handler) {
+            if (preg_match($path, $uri, $matches)) {
                 foreach ($matches as $key => $match) {
                     if (is_string($key)) {
                         $this->params[$key] = $match;
@@ -76,15 +67,19 @@ class Router implements RouterInterface
     /**
      * @param RequestInterface $request
      * @return void
+     * @throws \Exception
      */
     public function handle(RequestInterface $request): void
     {
-        $this->request = $request;
-        if ($this->match()) {
-            $controller = $this->config['controllerNamespace'] . ucfirst($this->handler['controller']) . 'Controller';
-            $controller = new $controller($request);
+        if ($this->match($request->getMethod(), $request->getRequestURI())) {
+            $controller = 'Controller\\' . ucfirst($this->handler['controller']) . 'Controller';
             $action = $this->handler['action'] . 'Action';
-            call_user_func_array([$controller, $action], $this->params);
+            if (class_exists($controller) && method_exists($controller, $action)) {
+                $controller = new $controller($request);
+                call_user_func_array([$controller, $action], $this->params);
+            } else {
+                throw new \Exception("Undefined method " . $action . " of " . $controller);
+            }
         } else {
             $this->notFound();
         }

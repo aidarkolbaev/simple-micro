@@ -7,8 +7,5 @@ $config = [
         'password' => '?',
         'dbname' => '?',
         'charset' => 'utf8',
-    ],
-    'application' => [
-        'controllerNamespace' => 'App\Controller\\'
     ]
 ];

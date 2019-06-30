@@ -1,8 +1,10 @@
 {
   "autoload": {
     "psr-4": {
-      "Core\\": "library/Core",
-      "App\\": "app/"
+      "Core\\": "src/Core",
+      "Controller\\": "app/Controller",
+      "Model\\": "app/Model",
+      "Service\\": "app/Service"
     }
   },
   "require": {

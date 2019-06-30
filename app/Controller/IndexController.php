@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace Controller;
 
 
-use App\Model\User;
+use Model\User;
 use Core\Controller\AbstractController;
 
 class IndexController extends AbstractController

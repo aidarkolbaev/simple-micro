@@ -21,10 +21,6 @@ $params = [
         "prop" => "charset",
         "default" => "utf8"
     ],
-    "Enter controllers namespace: " => [
-        "prop" => "controllerNamespace",
-        "default" => "App\Controller\\"
-    ]
 ];
 
 $result = [];
@@ -45,9 +41,6 @@ function writeToFile(array $result) {
         'password' => '{$result["password"]}',
         'dbname' => '{$result["dbname"]}',
         'charset' => '{$result["charset"]}',
-    ],
-    'application' => [
-        'controllerNamespace' => '${result["controllerNamespace"]}\\'
     ]
 ];";
     fwrite($file, $data);

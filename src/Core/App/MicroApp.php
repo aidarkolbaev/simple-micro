@@ -20,7 +20,7 @@ class MicroApp implements AppInterface
     {
         global $config;
         $this->config = $config;
-        $this->router = new Router($this->config['application']);
+        $this->router = new Router();
     }
 
     public function handle(): void
