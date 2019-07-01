@@ -1,8 +1,10 @@
 <?php
 
-namespace Core\Router;
+namespace Core;
 
-use Core\Request\RequestInterface;
+use Core\Interfaces\RequestInterface;
+use Core\Interfaces\ResponseInterface;
+use Core\Interfaces\RouterInterface;
 
 class Router implements RouterInterface
 {
@@ -50,18 +52,11 @@ class Router implements RouterInterface
      */
     public function addRoute(string $path, string $method, array $handler): void
     {
-        $path = preg_replace('/\//', '\\/', $path);
+        $path = str_replace('/', '\\/', $path);
         $path = preg_replace('/\{([a-z-_]+):\s*(\S+)\}/', '(?<$1>$2)', $path);
         $path = '/^' . $path . '$/i';
 
         $this->routes[$method][$path] = $handler;
-    }
-
-    /** @return void */
-    private function notFound(): void
-    {
-        http_response_code(404);
-        echo 'Not Found';
     }
 
     /**
@@ -76,12 +71,15 @@ class Router implements RouterInterface
             $action = $this->handler['action'] . 'Action';
             if (class_exists($controller) && method_exists($controller, $action)) {
                 $controller = new $controller($request);
-                call_user_func_array([$controller, $action], $this->params);
+                $response = call_user_func_array([$controller, $action], $this->params);
+                if ($response instanceof ResponseInterface) {
+                    $response->send();
+                }
             } else {
                 throw new \Exception("Undefined method " . $action . " of " . $controller);
             }
         } else {
-            $this->notFound();
+            (new JsonResponse(['message' => 'Not Found'], 404))->send();
         }
     }
 }

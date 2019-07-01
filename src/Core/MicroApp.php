@@ -1,11 +1,10 @@
 <?php
 
-namespace Core\App;
+namespace Core;
 
 
-use Core\Request\Request;
-use Core\Router\Router;
-use Core\Router\RouterInterface;
+use Core\Interfaces\AppInterface;
+use Core\Interfaces\RouterInterface;
 
 class MicroApp implements AppInterface
 {
@@ -16,13 +15,17 @@ class MicroApp implements AppInterface
     /** @var array */
     private $config;
 
-    public function __construct()
+    public function __construct(RouterInterface $router)
     {
         global $config;
         $this->config = $config;
-        $this->router = new Router();
+        $this->router = $router;
     }
 
+    /**
+     * @return void
+     * @throws \Exception
+     */
     public function handle(): void
     {
         $this->router->handle(new Request());

@@ -2,7 +2,7 @@
 
 namespace Model;
 
-use Core\Model\Model;
+use Core\Model;
 use PDO;
 
 class User extends Model

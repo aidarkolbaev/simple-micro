@@ -1,9 +1,7 @@
 <?php
 
-namespace Core\Router;
+namespace Core\Interfaces;
 
-
-use Core\Request\RequestInterface;
 
 interface RouterInterface
 {
@@ -21,6 +19,7 @@ interface RouterInterface
     /**
      * @param RequestInterface $request
      * @return void
+     * @throws \Exception
      */
     public function handle(RequestInterface $request): void;
 }

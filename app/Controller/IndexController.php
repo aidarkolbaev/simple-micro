@@ -3,21 +3,27 @@
 namespace Controller;
 
 
+use Core\JsonResponse;
 use Model\User;
-use Core\Controller\AbstractController;
+use Core\AbstractController;
 
 class IndexController extends AbstractController
 {
     public function indexAction() {
+        (new JsonResponse())->redirect('/user');
+    }
+
+    public function listAction() {
         $response = [
             'users' => User::getAll()
         ];
-        return $this->jsonResponse($response);
+        return new JsonResponse($response);
     }
 
     public function viewAction($id) {
-        return $this->jsonResponse([
+        $response = [
             'user' => User::getById($id)
-        ]);
+        ];
+        return (new JsonResponse($response))->send();
     }
 }
