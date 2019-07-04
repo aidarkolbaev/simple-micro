@@ -38,6 +38,7 @@ class JsonResponse implements ResponseInterface
     public function setStatusCode(int $status): ResponseInterface
     {
         $this->statusCode = $status;
+        return $this;
     }
 
     /**
@@ -47,6 +48,7 @@ class JsonResponse implements ResponseInterface
     public function setContent($data): ResponseInterface
     {
         $this->data = $data;
+        return $this;
     }
 
     /**
@@ -57,6 +59,7 @@ class JsonResponse implements ResponseInterface
     public function setHeader(string $name, string $value): ResponseInterface
     {
         $this->headers[$name] = $value;
+        return $this;
     }
 
     /**

@@ -22,7 +22,7 @@ class Router implements RouterInterface
      * @param string $uri
      * @return bool
      */
-    private function match(string $method, string $uri): bool
+    public function match(string $method, string $uri): bool
     {
         foreach ($this->routes[$method] as $path => $handler) {
             if (preg_match($path, $uri, $matches)) {

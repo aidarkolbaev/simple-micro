@@ -5,6 +5,13 @@ namespace Core\Interfaces;
 
 interface RouterInterface
 {
+    /**
+     * @param string $method
+     * @param string $uri
+     * @return bool
+     */
+    public function match(string $method, string $uri): bool;
+
     /** @return array */
     public function getRoutes(): array;
 

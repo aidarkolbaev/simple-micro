@@ -1,3 +1,3 @@
 #### Simple micro app implementation
 
-> run **``` php bin/configure.php ```**  to configure
+> run **``` php bin/configure ```**  to configure
